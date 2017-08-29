@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace SnakeLadder
 {
     class Cell
-    {
-        public int CellId { get; set; }
-        public Dictionary<string,List<int>> Rules { get; set; }
+    {        
+        public Dictionary<RuleType,List<int>> Rules { get; set; }
+        public int PlayerInsideCount { get; set; }
     }
 }
