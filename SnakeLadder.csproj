@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Rule.cs" />
-    <Compile Include="Utilities.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="RuleUtilities.cs" />
     <Compile Include="Board.cs" />
