@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SnakeLadder
 {
-    class Rule
+    public static class Constants
     {
-        public RuleType Type { get; set; }
-        public int[] Params { get; set; }
+        public const  int SnakeRuleLength = 2;
+
+        public const int DiceSize = 6;
     }
 }

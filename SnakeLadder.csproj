@@ -43,10 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Rule.cs" />
+    <Compile Include="Rules\EscalatorRule.cs" />
+    <Compile Include="Rules\LadderRule.cs" />
+    <Compile Include="Rules\MagicRule.cs" />
+    <Compile Include="Rules\MemoryRule.cs" />
+    <Compile Include="Rules\PitstopRule.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Rules\SnakeRule.cs" />
+    <Compile Include="Rules\TrampolineRule.cs" />
     <Compile Include="RuleUtilities.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Program.cs" />
