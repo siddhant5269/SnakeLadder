@@ -6,34 +6,27 @@ using System.Threading.Tasks;
 
 namespace SnakeLadder.Rules
 {
-    class LadderRule : Rule
+    class LadderRule : IRule
     {
-        public LadderRule(string exp)
-        {
-            this.Expression = exp;
-        }
-        public override string Expression { get; set; }
-        public int Head { get; set; }
-        public int Tail { get; set; }       
+        private int _bottom;
+        private int _top;
 
-        public override void ValidateAndCreate()
-        {
-            var expParams = this.Expression.Split(' ');
-            if (expParams.Length != 3)
+        public int Bottom { get { return _bottom; } }
+        public int Top { get { return _top; } }
+        public RuleType Type { get { return RuleType.L; } }       
+
+        public bool ValidateInitialize(string[] paramters)
+        {            
+            if (paramters.Length != 2)
             {
-                throw new Exception("Not a valid ladder rule.");
+                return false;
             }
-            this.Head = int.Parse(expParams[1]);
-            this.Tail = int.Parse(expParams[2]);
+            return Int32.TryParse(paramters[0],out _bottom) && Int32.TryParse(paramters[1],out _top);
         }
 
-        public override int Eval(int pos)
+        public bool TryApplyOnBoard(Board board)
         {
-            if (pos == this.Head)
-                return this.Tail;
-            return pos;
-
+            return true;
         }
-
     }
 }

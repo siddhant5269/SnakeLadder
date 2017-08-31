@@ -44,8 +44,10 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="RuleConstants.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameManager.cs" />
+    <Compile Include="RuleManager.cs" />
     <Compile Include="Rules\EscalatorRule.cs" />
     <Compile Include="Rules\LadderRule.cs" />
     <Compile Include="Rules\MagicRule.cs" />

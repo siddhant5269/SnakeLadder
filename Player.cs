@@ -9,41 +9,40 @@ namespace SnakeLadder
 {
     public class Player
     {
+        private int _currentPositionIndexInLastPositions;
+
         public int EnergyLevel { get; set; }
-        public Cell1 CurrentPosition { get; set; }
-        public int id { get; set; }
-        public Player(Cell1 c)
+        public bool  IsMagic { get; set; }
+
+
+        public int CurrentPosition
         {
-            this.CurrentPosition = c;            
+            get { return _lastPositions[_currentPositionIndexInLastPositions]; }
+            set
+            {
+                CurrentPosition = value;
+                _currentPositionIndexInLastPositions = _currentPositionIndexInLastPositions + 1 % LastPositions.Count();
+                LastPositions[_currentPositionIndexInLastPositions] = value;
+            }
         }
 
-       
+        private int[] _lastPositions = new int[Constants.DiceSize];
+        public int[] LastPositions
+        {
+            get
+            {
+                return _lastPositions;
+            }
+            set
+            {
+                _lastPositions = value;
+            }
+        }
 
-
-
-        //public int EnergyLevel { get; set; }
-        //public int CurrentPositionCursor { get; set; }
-        //public string PathTravelled { get; set; }
-        //public bool IsTurnOver { get; set; }
-
-        //private int[] _lastPositions = new int[Constants.DiceSize];
-        //public int[] LastPositions
-        //{
-        //    get
-        //    {
-        //        return _lastPositions;
-        //    }
-        //    set
-        //    {
-        //        _lastPositions = value;
-        //    }
-        //}
-
-        //public void AddPath(RuleType? ruleType,int currentCell)
-        //{            
-        //    PathTravelled += "-> " + ruleType?.ToString() + currentCell;            
-        //}
-
-        //public bool IsMagic { get; set; }
+        public int GetPostionBeforeTurns(int noOfTurns)
+        {
+            return _currentPositionIndexInLastPositions + 1 >= noOfTurns
+                ? _currentPositionIndexInLastPositions - noOfTurns : LastPositions.Count() + _currentPositionIndexInLastPositions - noOfTurns;
+        }
     }
 }

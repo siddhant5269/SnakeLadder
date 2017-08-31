@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SnakeLadder
 {
-    public enum RuleType
+    public enum RuleType//Arranged in the order of their precedence
     {
+        P,
+        ME,
+        MA,
         S,
         L,
         T,
-        E,
-        P,
-        ME,
-        MA
-    }    
+        E
+    }
 }

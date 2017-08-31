@@ -8,25 +8,13 @@ using System.Collections;
 
 namespace SnakeLadder
 {
-    class Cell
+    public class Cell
     {        
-        public Cell(Dictionary<RuleType,Rule> rulesDict)
+        public Cell(Dictionary<RuleType,IRule> rulesDict)
         {
             Rules = rulesDict;
         }
-        public Dictionary<RuleType,Rule> Rules { get; set; }
+        public Dictionary<RuleType,IRule> Rules { get; set; }
         public int PlayerInsideCount { get; set; }
-    }
-
-    public class Cell1
-    {
-        public Cell1()
-        {
-            this.id = -1;
-            this.Rules = new ArrayList();
-        }
-        public ArrayList Rules { get; set; }
-        public int id { get; set; }
-        
-    }
+    }   
 }

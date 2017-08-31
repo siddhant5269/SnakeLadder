@@ -8,8 +8,7 @@ namespace SnakeLadder
 {
     public static class Constants
     {
-        public const  int SnakeRuleLength = 2;
-
         public const int DiceSize = 6;
+        public const int StartCellIndex = 1;
     }
 }

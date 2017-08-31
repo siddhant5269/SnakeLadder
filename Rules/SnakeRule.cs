@@ -7,50 +7,36 @@ using System.Collections;
 
 namespace SnakeLadder.Rules
 {
-    public class SnakeRule : Rule
+    public class SnakeRule : IRule
     {
-        //public int Start { get; set; }
-        //public int End { get; set; }
-        //public int Hunger { get; set; } 
 
-        //public SnakeRule(int start,int end, int hunger)
-        //{
-        //    Start = start;
-        //    End = end;
-        //    Hunger = hunger;
-        //}  
-       
-        public SnakeRule(string exp)
-        {
-            this.Expression = exp;
-        }
-        public override string Expression { get; set; }
-        public int Head { get; set; }
-        public int Tail { get; set; }
-        public int EnergyLevel { get; set; }
 
-        public override void ValidateAndCreate()
+        public RuleType Type { get { return RuleType.S; } }
+
+        private int _head;
+        private int _tail;
+        private int _hunger;
+        public int Head { get { return _head; } }
+        public int Tail { get { return _tail; } }
+        public int Hunger { get { return _hunger; } }       
+
+        public bool ValidateInitialize(string[] paramters)
         {
-            var expParams = this.Expression.Split(' ');
-            if (expParams.Length != 4)
+            if (paramters.Length != 3)
             {
-                throw new Exception("Not a valid snake rule.");
+                return false; 
             }
-            this.Head = int.Parse(expParams[1]);
-            this.Tail = int.Parse(expParams[2]);
-            this.EnergyLevel = int.Parse(expParams[2]);
-
-            
+            return Int32.TryParse(paramters[0], out _head) && Int32.TryParse(paramters[1], out _tail) && Int32.TryParse(paramters[1], out _hunger);          
         }
 
-        public override int Eval(int pos)
+        public bool TryApplyOnBoard(Board board)
         {
-            if (pos == this.Head)
-                return this.Tail;
-            return pos;
-
+            return true;
         }
 
-
+        public void DecreaseHunger(int decreaseBy = 1)
+        {
+            _hunger -= decreaseBy;
+        }
     }
 }

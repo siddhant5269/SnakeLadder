@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace SnakeLadder
 {
-    class Game
+    public class Game
     {
-        
+        public Player[] Players { get; set; }
+        public Board Board { get; set; }
+        public int CurrentPlayerIndex { get; set; }
+        public Player CurrentPlayer { get { return Players[CurrentPlayerIndex]; } }
 
+        
 
         /*public Player[] Players { get; set; }
 
