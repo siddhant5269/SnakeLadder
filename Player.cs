@@ -44,5 +44,10 @@ namespace SnakeLadder
             return _currentPositionIndexInLastPositions + 1 >= noOfTurns
                 ? _currentPositionIndexInLastPositions - noOfTurns : LastPositions.Count() + _currentPositionIndexInLastPositions - noOfTurns;
         }
+
+        public void DecreaseEnergy(int decreaseBy = 1)
+        {
+            EnergyLevel -= decreaseBy;
+        }
     }
 }

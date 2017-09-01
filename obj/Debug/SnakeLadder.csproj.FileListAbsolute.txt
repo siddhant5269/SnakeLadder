@@ -4,3 +4,6 @@ D:\ProjectsForLearning\SnakeLadder\SnakeLadder\bin\Debug\SnakeLadder.pdb
 D:\ProjectsForLearning\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.csprojResolveAssemblyReference.cache
 D:\ProjectsForLearning\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.exe
 D:\ProjectsForLearning\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.pdb
+D:\MyProjects\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.csprojResolveAssemblyReference.cache
+D:\MyProjects\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.exe
+D:\MyProjects\SnakeLadder\SnakeLadder\obj\Debug\SnakeLadder.pdb

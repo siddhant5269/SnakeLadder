@@ -57,7 +57,6 @@
     <Compile Include="Player.cs" />
     <Compile Include="Rules\SnakeRule.cs" />
     <Compile Include="Rules\TrampolineRule.cs" />
-    <Compile Include="RuleUtilities.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

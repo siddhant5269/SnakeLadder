@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SnakeLadder
 {
@@ -27,44 +24,60 @@ namespace SnakeLadder
         }
 
         public bool TryAssignRule(string ruleString)
-        {
+         {
             return _ruleManager.TryAssignRule(ruleString,_game);
         }
 
         public void PlayDice(int diceValue)
-        {
-            var currentPlayer = _game.CurrentPlayer;           
-            var position = currentPlayer.CurrentPosition;
-            int oldPosition = 0;            
-            while(position != oldPosition)
+        {            
+            var currentPlayer = _game.CurrentPlayer;
+
+            if (!IsDiceWaste(diceValue, currentPlayer.CurrentPosition, _game.Board.NoOfCells))
             {
-                var currentCell = _game.Board.Cells[position];
-                oldPosition = position;
-                foreach (RuleType ruleType in Enum.GetValues(typeof(RuleType)))
+                var position = currentPlayer.CurrentPosition + diceValue;
+                int oldPosition = 0;
+                while (position != oldPosition)
                 {
-                    if (currentCell.Rules.ContainsKey(ruleType))
+                    oldPosition = position;
+                    var currentCell = _game.Board.Cells[position];                    
+                    foreach (RuleType ruleType in Enum.GetValues(typeof(RuleType)))
                     {
-                        _ruleManager.ApplyRule(currentCell.Rules[ruleType],currentPlayer,_game.Board,diceValue);
-                    }                    
-                }                
-                position = currentPlayer.CurrentPosition;
-            }
+                        if (currentCell.Rules.ContainsKey(ruleType))
+                        {
+                            _ruleManager.ApplyRule(currentCell.Rules[ruleType], currentPlayer, _game.Board, diceValue);
+                        }
+                    }
+                    position = currentPlayer.CurrentPosition;
+                }
+                currentPlayer.DecreaseEnergy();
+            }            
         }
 
-        internal void IntilizeGameParameters()
+        private bool IsDiceWaste(int diceValue,int playerCurrentPosition,int sizeOfBoard)
+        {
+            return diceValue + playerCurrentPosition > sizeOfBoard;
+        }
+
+        public void IntilizeGameParameters()
         {
             foreach (var player in _game.Players)
             {
-                var pitstopRule = _game.Board.Cells[Constants.StartCellIndex].Rules[RuleType.P];
-                player.EnergyLevel = 
-                player.CurrentPositionCursor = 0;
-                player.LastPositions[0] = 1;
+                InitializePlayer(player);
             }
         }
 
-        internal bool IsValidGame()
+
+        private void InitializePlayer(Player player)
         {
-            throw new NotImplementedException();
+            player.CurrentPosition = 1;
+            _ruleManager.ApplyRule(_game.Board.Cells[1].Rules[RuleType.P], player, _game.Board, 0);
+        }
+
+        
+        public bool IsValidGame()
+        {
+            //once validation parameters increase push into different functions
+            return _game.Board.Cells[Constants.StartCellIndex].Rules.ContainsKey(RuleType.P);
         }
 
         public bool IsGameOver()
@@ -85,7 +98,7 @@ namespace SnakeLadder
             {
                 var playerIndex = (currentPlayerIndex + i) / noOfPlayers;
                 var player = _game.Players[playerIndex];
-                scoreStirng += "[" + playerIndex + ":" + player.LastPositions[player.CurrentPositionCursor] + ":" + player.EnergyLevel + "]";
+                scoreStirng += "[" + playerIndex + ":" + player.CurrentPosition + ":" + player.EnergyLevel + "]";
             }
             return scoreStirng;
         }
