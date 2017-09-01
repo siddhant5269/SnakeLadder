@@ -15,7 +15,7 @@ namespace SnakeLadder.Rules
 
         public bool ValidateInitialize(string[] paramters)
         {
-            if (paramters.Length != 2)
+            if (paramters.Length != 1)
             {
                 return false;
             }

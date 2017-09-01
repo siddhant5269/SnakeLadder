@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SnakeLadder.Rules;
+using System;
 
 namespace SnakeLadder
 {
@@ -11,11 +9,17 @@ namespace SnakeLadder
     {
         public Board(int noOfCells)
         {
-            Cells = new Cell[noOfCells + 1].Select(cell => new Cell(new Dictionary<RuleType,IRule> ())).ToArray();
+            Cells = new Dictionary<int, Cell>();
+            for(int key=1; key <= noOfCells; key++)
+            {
+                Cells.Add(key, new Cell(new Dictionary<RuleType, IRule>()));
+            }            
+            NoOfCells = noOfCells;
+            SideLength = (int)Math.Pow(noOfCells, 0.5);
         }
 
-        public Cell[] Cells { get; set; }
+        public Dictionary<int, Cell> Cells { get; }
         public int SideLength { get; set; }
-        public int NoOfCells { get; set; }       
+        public int NoOfCells { get; set; }
     }
 }

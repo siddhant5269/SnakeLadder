@@ -34,23 +34,40 @@ namespace SnakeLadder
 
             if (!IsDiceWaste(diceValue, currentPlayer.CurrentPosition, _game.Board.NoOfCells))
             {
+                _game.Board.Cells[currentPlayer.CurrentPosition].DecreasePlayerInsideCount();
+
                 var position = currentPlayer.CurrentPosition + diceValue;
+                currentPlayer.CurrentPosition = position;
+
+                _game.Board.Cells[currentPlayer.CurrentPosition].IncreasePlayerInsideCount();
+
                 int oldPosition = 0;
                 while (position != oldPosition)
                 {
                     oldPosition = position;
-                    var currentCell = _game.Board.Cells[position];                    
-                    foreach (RuleType ruleType in Enum.GetValues(typeof(RuleType)))
-                    {
-                        if (currentCell.Rules.ContainsKey(ruleType))
-                        {
-                            _ruleManager.ApplyRule(currentCell.Rules[ruleType], currentPlayer, _game.Board, diceValue);
-                        }
-                    }
+                    var currentCell = _game.Board.Cells[position];
+                    currentCell.DecreasePlayerInsideCount();
+
+                    ApplyCellRulesOnPlayer(currentPlayer, currentCell, diceValue);
+
                     position = currentPlayer.CurrentPosition;
+                    currentCell = _game.Board.Cells[currentPlayer.CurrentPosition];
+                    currentCell.IncreasePlayerInsideCount();
                 }
                 currentPlayer.DecreaseEnergy();
+                currentPlayer.SetTurnOver();
             }            
+        }
+
+        private void ApplyCellRulesOnPlayer(Player player,Cell cell,int diceValue)
+        {
+            foreach (RuleType ruleType in Enum.GetValues(typeof(RuleType)))
+            {
+                if (cell.Rules.ContainsKey(ruleType))
+                {
+                    _ruleManager.ApplyRule(cell.Rules[ruleType], player, _game.Board, diceValue);
+                }
+            }
         }
 
         private bool IsDiceWaste(int diceValue,int playerCurrentPosition,int sizeOfBoard)
@@ -63,14 +80,16 @@ namespace SnakeLadder
             foreach (var player in _game.Players)
             {
                 InitializePlayer(player);
-            }
+                _game.Board.Cells[Constants.StartCellIndex].IncreasePlayerInsideCount();
+            }          
         }
 
 
         private void InitializePlayer(Player player)
         {
-            player.CurrentPosition = 1;
-            _ruleManager.ApplyRule(_game.Board.Cells[1].Rules[RuleType.P], player, _game.Board, 0);
+            player.CurrentPosition = Constants.StartCellIndex;             
+            ApplyCellRulesOnPlayer(player,_game.Board.Cells[player.CurrentPosition],0);
+            player.SetTurnOver();
         }
 
         
@@ -87,16 +106,16 @@ namespace SnakeLadder
 
         public void SetNextPlayer()
         {
-            _game.CurrentPlayerIndex = _game.CurrentPlayerIndex + 1 % _game.Players.Count();            
+            _game.CurrentPlayerIndex = (_game.CurrentPlayerIndex + 1) % _game.Players.Count();           
         }
 
-        private string CreateDisplayScores(int currentPlayerIndex)
+        public string CreateDisplayScores()
         {
             var noOfPlayers = _game.Players.Count();
             var scoreStirng = "";
             for (int i = 0; i < noOfPlayers; i++)
             {
-                var playerIndex = (currentPlayerIndex + i) / noOfPlayers;
+                var playerIndex = (_game.CurrentPlayerIndex + i) / noOfPlayers;
                 var player = _game.Players[playerIndex];
                 scoreStirng += "[" + playerIndex + ":" + player.CurrentPosition + ":" + player.EnergyLevel + "]";
             }

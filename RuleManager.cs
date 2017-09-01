@@ -8,7 +8,7 @@ namespace SnakeLadder
     {
         public bool TryAssignRule(string ruleString, Game game)
         {
-            var isValid = true;
+            var isValid = false;
             var ruleParts = ruleString.Split(' ').ToArray();
             if (ruleParts.Length < 2 || !Enum.TryParse<RuleType>(ruleParts[0], out RuleType ruleType))
             {
@@ -23,6 +23,7 @@ namespace SnakeLadder
                     var snakeRule = new SnakeRule();
                     if (snakeRule.ValidateInitialize(ruleParameters) && snakeRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[snakeRule.Head].Rules.Add(snakeRule.Type, snakeRule);
                         game.Board.Cells[snakeRule.Tail].Rules.Add(snakeRule.Type, snakeRule);
                     }
@@ -31,6 +32,7 @@ namespace SnakeLadder
                     var ladderRule = new LadderRule();
                     if (ladderRule.ValidateInitialize(ruleParameters) && ladderRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[ladderRule.Bottom].Rules.Add(ladderRule.Type, ladderRule);
                         game.Board.Cells[ladderRule.Top].Rules.Add(ladderRule.Type, ladderRule);
                     }
@@ -39,6 +41,7 @@ namespace SnakeLadder
                     var escalatorRule = new EscalatorRule();
                     if (escalatorRule.ValidateInitialize(ruleParameters) && escalatorRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[escalatorRule.StartPosition].Rules.Add(escalatorRule.Type, escalatorRule);
                     }
                     break;
@@ -46,6 +49,7 @@ namespace SnakeLadder
                     var trampolineRule = new TrampolineRule();
                     if (trampolineRule.ValidateInitialize(ruleParameters) && trampolineRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[trampolineRule.StartPosition].Rules.Add(trampolineRule.Type, trampolineRule);
                     }
                     break;
@@ -53,6 +57,7 @@ namespace SnakeLadder
                     var pitstopRule = new PitstopRule();
                     if (pitstopRule.ValidateInitialize(ruleParameters) && pitstopRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[pitstopRule.PitPosition].Rules.Add(pitstopRule.Type, pitstopRule);
                     }
                     break;
@@ -60,6 +65,7 @@ namespace SnakeLadder
                     var memoryRule = new MemoryRule();
                     if (memoryRule.ValidateInitialize(ruleParameters) && memoryRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[memoryRule.Position].Rules.Add(memoryRule.Type, memoryRule);
                     }
                     break;
@@ -67,16 +73,15 @@ namespace SnakeLadder
                     var magicRule = new MagicRule();
                     if (magicRule.ValidateInitialize(ruleParameters) && magicRule.TryApplyOnBoard(game.Board))
                     {
+                        isValid = true;
                         game.Board.Cells[magicRule.Position].Rules.Add(magicRule.Type, magicRule);
                     }
-                    break;
-                default:
-                    return true;
+                    break;               
             }
             return isValid;
         }
 
-        public bool ApplyRule(IRule rule, Player player, Board board, int diceValue)
+        public bool ApplyRule(IRule rule, Player player, Board board,int diceValue)
         {
             switch (rule.Type)
             {

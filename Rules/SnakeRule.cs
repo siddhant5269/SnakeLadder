@@ -26,7 +26,7 @@ namespace SnakeLadder.Rules
             {
                 return false; 
             }
-            return Int32.TryParse(paramters[0], out _head) && Int32.TryParse(paramters[1], out _tail) && Int32.TryParse(paramters[1], out _hunger);          
+            return Int32.TryParse(paramters[0], out _tail) && Int32.TryParse(paramters[1], out _head) && Int32.TryParse(paramters[2], out _hunger);          
         }
 
         public bool TryApplyOnBoard(Board board)
