@@ -30,8 +30,9 @@ namespace SnakeLadder
 
         public int GetPostionBeforeTurns(int noOfTurns)
         {
-            var positionBeforeNoOfTurns = _currentPositionIndexInLastPositions + 1 >= noOfTurns
-                ? _currentPositionIndexInLastPositions - noOfTurns : LastPositions.Count() + _currentPositionIndexInLastPositions - noOfTurns;
+            var positionBeforeNoOfTurns = _currentPositionIndexInLastPositions >= noOfTurns
+                ? _lastPositions[_currentPositionIndexInLastPositions - noOfTurns] 
+                : _lastPositions[(_lastPositions.Count() + _currentPositionIndexInLastPositions) - noOfTurns];
             return positionBeforeNoOfTurns < Constants.StartCellIndex ? Constants.StartCellIndex : positionBeforeNoOfTurns;
         }
 
@@ -42,8 +43,13 @@ namespace SnakeLadder
 
         public void SetTurnOver()
         {
-            _currentPositionIndexInLastPositions = _currentPositionIndexInLastPositions + 1 % LastPositions.Count();
+            _currentPositionIndexInLastPositions = (_currentPositionIndexInLastPositions + 1) % LastPositions.Count();
             _lastPositions[_currentPositionIndexInLastPositions] = CurrentPosition;
+        }
+
+        public bool IsOutOfEnergy()
+        {
+            return EnergyLevel == 0;
         }
     }
 }

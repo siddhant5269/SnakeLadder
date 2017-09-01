@@ -31,9 +31,9 @@ namespace SnakeLadder
         public void PlayDice(int diceValue)
         {            
             var currentPlayer = _game.CurrentPlayer;
-
+            currentPlayer.DecreaseEnergy();
             if (!IsDiceWaste(diceValue, currentPlayer.CurrentPosition, _game.Board.NoOfCells))
-            {
+            {                
                 _game.Board.Cells[currentPlayer.CurrentPosition].DecreasePlayerInsideCount();
 
                 var position = currentPlayer.CurrentPosition + diceValue;
@@ -54,8 +54,14 @@ namespace SnakeLadder
                     currentCell = _game.Board.Cells[currentPlayer.CurrentPosition];
                     currentCell.IncreasePlayerInsideCount();
                 }
-                currentPlayer.DecreaseEnergy();
-                currentPlayer.SetTurnOver();
+                if (!IsGameOver() && currentPlayer.IsOutOfEnergy())
+                {
+                    InitializePlayer(currentPlayer);
+                }
+                else
+                {
+                    currentPlayer.SetTurnOver();
+                }
             }            
         }
 
@@ -115,7 +121,7 @@ namespace SnakeLadder
             var scoreStirng = "";
             for (int i = 0; i < noOfPlayers; i++)
             {
-                var playerIndex = (_game.CurrentPlayerIndex + i) / noOfPlayers;
+                var playerIndex = (_game.CurrentPlayerIndex + i) % noOfPlayers;
                 var player = _game.Players[playerIndex];
                 scoreStirng += "[" + playerIndex + ":" + player.CurrentPosition + ":" + player.EnergyLevel + "]";
             }

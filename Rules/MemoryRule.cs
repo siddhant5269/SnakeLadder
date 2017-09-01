@@ -11,7 +11,7 @@ namespace SnakeLadder.Rules
         private int _position;
 
         public int Position { get { return _position; } }        
-        public RuleType Type { get { return RuleType.P; } }
+        public RuleType Type { get { return RuleType.ME; } }
 
         public bool ValidateInitialize(string[] paramters)
         {

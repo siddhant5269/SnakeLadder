@@ -11,6 +11,7 @@ namespace SnakeLadder
     class Program
     {
         private static int inputIndex = 0;
+        private static Random random= new Random();
         static void Main(string[] args)
         {
 
@@ -53,20 +54,28 @@ namespace SnakeLadder
             {
                 if(Int32.TryParse(getInput(), out int diceValue))
                 {
+                    Console.WriteLine(diceValue);
                     gameManager.PlayDice(diceValue);
-                }
-                if (gameManager.IsGameOver())
-                {
-                    break;
-                }
-                gameManager.SetNextPlayer();
-                Console.WriteLine(gameManager.CreateDisplayScores());
+                    if (gameManager.IsGameOver())
+                    {
+                        break;
+                    }                    
+                    gameManager.SetNextPlayer();
+                    Console.WriteLine(gameManager.CreateDisplayScores());
+                }                
+                
             }
+            Console.WriteLine("Some Player Has Won!");
+            Console.ReadKey();
         }
 
         private static string getInput()
         {
-            var inputArray = new []{ "64", "2", "S 2 9 4", "P 1 32", "T 7", "E 11", "P 16 5", "ME 23", "MA 8", "MA 22", "S 1 27 6" ,"","3","2","4","3","2","2","2","4","6","3"};
+            var inputArray = new []{ "64", "2", "S 2 23 3", "P 1 31", "T 7","T 12", "E 11", "P 16 5", "ME 23", "MA 8", "MA 22", "L 4 19", "S 1 27 6","L 13 24","L 6 25" , "" , "3","4","1","5","5","3","1","2","4"};
+            if(inputIndex > inputArray.Count() - 1)
+            {
+                return random.Next(1, 7).ToString();
+            }
             return inputArray[inputIndex++];
         }
     }

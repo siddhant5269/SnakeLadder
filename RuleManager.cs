@@ -89,10 +89,10 @@ namespace SnakeLadder
                     var snakeRule = (SnakeRule)rule;
                     if (player.IsMagic)
                     {
-
                         if (snakeRule.Hunger > 0 && player.CurrentPosition == snakeRule.Tail)
                         {
                             player.CurrentPosition = snakeRule.Head;
+                            snakeRule.DecreaseHunger();
                         }
                     }
                     else
@@ -101,9 +101,10 @@ namespace SnakeLadder
                         if (snakeRule.Hunger > 0 && player.CurrentPosition == snakeRule.Head)
                         {
                             player.CurrentPosition = snakeRule.Tail;
+                            snakeRule.DecreaseHunger();
                         }
                     }
-                    snakeRule.DecreaseHunger();
+                    
                     break;
                 case RuleType.L:
                     var ladderRule = (LadderRule)rule;
@@ -155,7 +156,7 @@ namespace SnakeLadder
                 case RuleType.T:
                     var trampolineRule = (TrampolineRule)rule;
                     positionsToBeMoved = diceValue;
-                    if (player.IsMagic)
+                    if(player.IsMagic)
                     {
                         player.CurrentPosition = player.CurrentPosition - 
                             Math.Min(positionsToBeMoved, player.CurrentPosition - 1);
@@ -168,7 +169,7 @@ namespace SnakeLadder
                     break;
                 case RuleType.P:
                     var pitstopRule = (PitstopRule)rule;
-                    player.EnergyLevel = (int)(Math.Pow(pitstopRule.UnitsOfEnergy, 2) / 3);
+                    player.EnergyLevel = player.EnergyLevel + (int)(Math.Pow(pitstopRule.UnitsOfEnergy, 2) / 3);
                     break;
                 case RuleType.ME:                    
                     player.CurrentPosition = player.GetPostionBeforeTurns(diceValue);
