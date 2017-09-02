@@ -6,6 +6,6 @@ namespace SnakeLadder.Rules
     {
         RuleType Type { get; }
         bool ValidateInitialize(string[] paramters);
-        bool TryApplyOnBoard(Board board); 
+        
     }
 }

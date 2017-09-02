@@ -21,65 +21,96 @@ namespace SnakeLadder
             {
                 case RuleType.S:
                     var snakeRule = new SnakeRule();
-                    if (snakeRule.ValidateInitialize(ruleParameters) && snakeRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[snakeRule.Head].Rules.Add(snakeRule.Type, snakeRule);
-                        game.Board.Cells[snakeRule.Tail].Rules.Add(snakeRule.Type, snakeRule);
-                    }
+                    isValid = snakeRule.ValidateInitialize(ruleParameters)
+                            && TryApplyRuleOnCell(snakeRule, game.Board.Cells[snakeRule.Head], game.Board)
+                            && TryApplyRuleOnCell(snakeRule, game.Board.Cells[snakeRule.Tail], game.Board);
                     break;
                 case RuleType.L:
                     var ladderRule = new LadderRule();
-                    if (ladderRule.ValidateInitialize(ruleParameters) && ladderRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[ladderRule.Bottom].Rules.Add(ladderRule.Type, ladderRule);
-                        game.Board.Cells[ladderRule.Top].Rules.Add(ladderRule.Type, ladderRule);
-                    }
+                    isValid = ladderRule.ValidateInitialize(ruleParameters)
+                            && TryApplyRuleOnCell(ladderRule, game.Board.Cells[ladderRule.Bottom], game.Board)
+                            && TryApplyRuleOnCell(ladderRule, game.Board.Cells[ladderRule.Top], game.Board);                   
                     break;
                 case RuleType.E:
-                    var escalatorRule = new EscalatorRule();
-                    if (escalatorRule.ValidateInitialize(ruleParameters) && escalatorRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[escalatorRule.StartPosition].Rules.Add(escalatorRule.Type, escalatorRule);
-                    }
+                    var escalatorRule = new EscalatorRule();                   
+                    isValid = escalatorRule.ValidateInitialize(ruleParameters)
+                            && TryApplyRuleOnCell(escalatorRule, game.Board.Cells[escalatorRule.StartPosition], game.Board);
                     break;
                 case RuleType.T:
                     var trampolineRule = new TrampolineRule();
-                    if (trampolineRule.ValidateInitialize(ruleParameters) && trampolineRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[trampolineRule.StartPosition].Rules.Add(trampolineRule.Type, trampolineRule);
-                    }
+                    isValid = trampolineRule.ValidateInitialize(ruleParameters)
+                            && TryApplyRuleOnCell(trampolineRule, game.Board.Cells[trampolineRule.StartPosition], game.Board);                   
                     break;
                 case RuleType.P:
                     var pitstopRule = new PitstopRule();
-                    if (pitstopRule.ValidateInitialize(ruleParameters) && pitstopRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[pitstopRule.PitPosition].Rules.Add(pitstopRule.Type, pitstopRule);
-                    }
+                    isValid = pitstopRule.ValidateInitialize(ruleParameters)
+                           && TryApplyRuleOnCell(pitstopRule, game.Board.Cells[pitstopRule.PitPosition], game.Board);
                     break;
                 case RuleType.ME:
                     var memoryRule = new MemoryRule();
-                    if (memoryRule.ValidateInitialize(ruleParameters) && memoryRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[memoryRule.Position].Rules.Add(memoryRule.Type, memoryRule);
-                    }
+                    isValid = memoryRule.ValidateInitialize(ruleParameters)
+                          && TryApplyRuleOnCell(memoryRule, game.Board.Cells[memoryRule.Position], game.Board);
+
+                  
                     break;
                 case RuleType.MA:
                     var magicRule = new MagicRule();
-                    if (magicRule.ValidateInitialize(ruleParameters) && magicRule.TryApplyOnBoard(game.Board))
-                    {
-                        isValid = true;
-                        game.Board.Cells[magicRule.Position].Rules.Add(magicRule.Type, magicRule);
-                    }
+                    isValid = magicRule.ValidateInitialize(ruleParameters)
+                         && TryApplyRuleOnCell(magicRule, game.Board.Cells[magicRule.Position], game.Board);
                     break;               
             }
             return isValid;
         }
+
+        private bool TryApplyRuleOnCell(IRule rule, Cell cell, Board board)
+        {
+            if(cell == board.Cells[board.NoOfCells]) {
+                return false;
+            }
+            var canBeApplied = true;
+            switch (rule.Type)
+            {
+                case RuleType.S:
+                           canBeApplied =!cell.Rules.ContainsKey(RuleType.S) &&
+                           !cell.Rules.ContainsKey(RuleType.L) &&
+                           !cell.Rules.ContainsKey(RuleType.T) &&
+                           !cell.Rules.ContainsKey(RuleType.E);
+                    break;
+                case RuleType.L:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.S) &&
+                           !cell.Rules.ContainsKey(RuleType.L) &&
+                           !cell.Rules.ContainsKey(RuleType.T) &&
+                           !cell.Rules.ContainsKey(RuleType.E);
+                    break;
+                case RuleType.E:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.S) &&
+                            !cell.Rules.ContainsKey(RuleType.L) &&
+                            !cell.Rules.ContainsKey(RuleType.T) &&
+                            !cell.Rules.ContainsKey(RuleType.E);
+                    break;
+                case RuleType.T:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.S) &&
+                           !cell.Rules.ContainsKey(RuleType.L) &&
+                           !cell.Rules.ContainsKey(RuleType.T) &&
+                           !cell.Rules.ContainsKey(RuleType.E);
+                    break;
+                case RuleType.P:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.P);
+                    break;                   
+                case RuleType.ME:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.ME);
+                    break;
+                case RuleType.MA:
+                    canBeApplied = !cell.Rules.ContainsKey(RuleType.MA);
+                    break;
+            }
+            if (canBeApplied)
+            {
+                cell.Rules.Add(rule.Type,rule);
+            }
+            return canBeApplied;            
+        }
+       
 
         public bool ApplyRule(IRule rule, Player player, Board board,int diceValue)
         {

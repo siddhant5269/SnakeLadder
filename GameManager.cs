@@ -107,7 +107,7 @@ namespace SnakeLadder
 
         public bool IsGameOver()
         {
-            return _game.CurrentPlayer.CurrentPosition == _game.Board.NoOfCells;
+            return _game.Board.Cells[_game.CurrentPlayer.CurrentPosition] == _game.Board.Cells[_game.Board.NoOfCells];
         }
 
         public void SetNextPlayer()

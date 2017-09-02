@@ -25,10 +25,7 @@ namespace SnakeLadder.Rules
             return Int32.TryParse(paramters[0], out _pitPosition) && Int32.TryParse(paramters[1], out _unitsOfEnergy);
         }
 
-        public bool TryApplyOnBoard(Board board)
-        {
-            return true;
-        }
+     
 
     }
 

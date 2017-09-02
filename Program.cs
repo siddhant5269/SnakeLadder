@@ -71,8 +71,10 @@ namespace SnakeLadder
 
         private static string getInput()
         {
-            var inputArray = new []{ "64", "2", "S 2 23 3", "P 1 31", "T 7","T 12", "E 11", "P 16 5", "ME 23", "MA 8", "MA 22", "L 4 19", "S 1 27 6","L 13 24","L 6 25" , "" , "3","4","1","5","5","3","1","2","4"};
-            if(inputIndex > inputArray.Count() - 1)
+            //var inputArray = new []{ "64", "2", "S 2 23 3", "P 1 31", "T 7","T 12", "E 11", "P 16 5", "ME 23", "MA 8", "MA 22", "L 4 19", "S 1 27 6","L 13 24","L 6 25" , "" , "3","4","1","5","5","3","1","2","4"};
+            //var inputArray = new []{ "64", "2", "S 2 23 3", "P 1 43", "T 64","T 12","T 12", "E 11", "P 16 5", "ME 23", "MA 8", "MA 22", "L 4 19", "S 1 27 6","L 13 24","L 6 25" , "" , "3","4","1","5","5","3","1","2","4"};
+
+            if (inputIndex > inputArray.Count() - 1)
             {
                 return random.Next(1, 7).ToString();
             }

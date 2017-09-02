@@ -21,10 +21,5 @@ namespace SnakeLadder.Rules
             }
             return Int32.TryParse(paramters[0], out _startPosition);
         }
-
-        public bool TryApplyOnBoard(Board board)
-        {
-            return true;
-        }
     }
 }
